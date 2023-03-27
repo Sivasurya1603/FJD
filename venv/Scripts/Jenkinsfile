@@ -1,0 +1,35 @@
+pipeline {
+    agent any
+    stages {
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    checkout scm
+                    if (fileExists("path/to/Dockerfile")) {
+                        def dockerfilePath = "path/to/Dockerfile"
+                        docker.build("sivasurya1603/fjd:latest", "-f ${dockerfilePath} .")
+                    } else {
+                        error "Dockerfile not found in repository"
+                    }
+                }
+            }
+        }
+        // additional stages for testing and pushing the image
+         stage('Run Tests') {
+            steps {
+                bat "docker run sivasurya1603/fjd:latest python -m pytest"
+            }
+        }
+        stage('Push Docker Image to Docker Hub') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'my-docker-hub-creds', usernameVariable: 'sivasurya1603', passwordVariable: 'suryadocker')]) {
+                        docker.withRegistry('https://index.docker.io/v1/', 'dockerhub') {
+                            docker.image("sivasurya1603/fjd:latest").push()
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
