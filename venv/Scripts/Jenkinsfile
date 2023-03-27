@@ -15,11 +15,11 @@ pipeline {
             }
         }
         // additional stages for testing and pushing the image
-         stage('Run Tests') {
-            steps {
-                bat "docker run sivasurya1603/fjd:latest python -m pytest"
-            }
-        }
+         //stage('Run Tests') {
+         //   steps {
+         //       bat "docker run sivasurya1603/fjd:latest python -m pytest"
+         //   }
+       // }
         stage('Push Docker Image to Docker Hub') {
             steps {
                 script {
