@@ -1,5 +1,11 @@
 FROM python:3.9
 
+RUN pip install fastapi uvicorn
+
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+COPY . /app
 WORKDIR /app
 
-RUN pip install fastapi uvicorn
+CMD [ "python", "-m", "pytest" ]
