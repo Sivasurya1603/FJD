@@ -5,8 +5,8 @@ pipeline {
             steps {
                 script {
                     checkout scm
-                    if (fileExists("path/to/Dockerfile")) {
-                        def dockerfilePath = "path/to/Dockerfile"
+                    if (fileExists("venv/Scripts/Dockerfile")) {
+                        def dockerfilePath = "venv/Scripts/Dockerfile"
                         docker.build("sivasurya1603/fjd:latest", "-f ${dockerfilePath} .")
                     } else {
                         error "Dockerfile not found in repository"
